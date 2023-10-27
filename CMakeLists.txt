@@ -6,6 +6,9 @@ set (CMAKE_SUPPRESS_REGENERATION TRUE)
 
 set (CMAKE_CONFIGURATION_TYPES Release Debug RelWithDebInfo CACHE INTERNAL "" FORCE)
 
+# set(BASEPATH "${CMAKE_SOURCE_DIR}")
+include_directories("${CMAKE_SOURCE_DIR}")
+
 # set using C++ standard
 set (BUILD_CPP_STANDARD "C++11" CACHE STRING "Select using c++ standard.")
 set_property(CACHE BUILD_CPP_STANDARD PROPERTY STRINGS "C++11" "C++14" "C++17" "C++20" "C++23")
@@ -143,7 +146,7 @@ endif()
 if (BUILD_USE_PCH)
 
   # Load Cotire tool for accelerating build procedure
-  include(cotire)
+  #   include(cotire)
 
   # Set Cotire to ignore lxx, pxx, gxx
   set (COTIRE_ADDITIONAL_PREFIX_HEADER_IGNORE_EXTENSIONS "lxx;pxx;gxx" CACHE STRING "Set Cotire to ignore OCCT specific files that can be #included" FORCE)
