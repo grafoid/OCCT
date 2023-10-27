@@ -6,6 +6,9 @@ set (CMAKE_SUPPRESS_REGENERATION TRUE)
 
 set (CMAKE_CONFIGURATION_TYPES Release Debug RelWithDebInfo CACHE INTERNAL "" FORCE)
 
+# For created include links
+include_directories("${CMAKE_SOURCE_DIR}")
+
 # macro: include patched file if it exists
 macro (OCCT_INCLUDE_CMAKE_FILE BEING_INCLUDED_FILE)
   if (BUILD_PATCH AND EXISTS "${BUILD_PATCH}/${BEING_INCLUDED_FILE}.cmake")
@@ -109,7 +112,7 @@ endif()
 if (BUILD_USE_PCH)
 
   # Load Cotire tool for accelerating build procedure
-  include(cotire)
+  #   include(cotire)
 
   # Set Cotire to ignore lxx, pxx, gxx
   set (COTIRE_ADDITIONAL_PREFIX_HEADER_IGNORE_EXTENSIONS "lxx;pxx;gxx" CACHE STRING "Set Cotire to ignore OCCT specific files that can be #included" FORCE)
