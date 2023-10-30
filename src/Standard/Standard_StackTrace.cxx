@@ -29,13 +29,18 @@
   //#include <unwind.h>
 #elif defined(__QNX__)
   //#include <backtrace.h> // requires linking to libbacktrace
-#elif !defined(_WIN32) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE)
+#elif !defined(_WIN32) && !defined(_WIN32_WINNT) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE)
   #include <execinfo.h>
-#elif defined(_WIN32) && !defined(OCCT_UWP)
+#elif (defined(_WIN32) || defined(_WIN32_WINNT)) && !defined(OCCT_UWP)
 
 #include <Standard_WarningsDisable.hxx>
+  #include <windows.h>
   #include <dbghelp.h>
 #include <Standard_WarningsRestore.hxx>
+#include <string.h>
+#include <string>
+
+#define strcat_s(x,y,z)  strcat((x),(z))
 
 //! This is a wrapper of DbgHelp library loaded dynamically.
 //! DbgHelp is coming with Windows SDK, so that technically it is always available.
@@ -210,7 +215,7 @@ Standard_Boolean Standard::StackTrace (char* theBuffer,
 #elif defined(OCCT_UWP) || (defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE)
   Message::SendTrace ("Standard::StackTrace() is not implemented for this platform");
   return false;
-#elif defined(_WIN32)
+#elif defined(_WIN32) || defined(_WIN32_WINNT)
   // Each CPU architecture requires manual stack frame setup,
   // and 32-bit version requires also additional hacks to retrieve current context;
   // this implementation currently covers only x86_64 architecture.
